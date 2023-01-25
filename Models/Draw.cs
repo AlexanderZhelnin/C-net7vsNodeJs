@@ -1,54 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Numerics;
 
 namespace drawer.Models;
 
-public class DrawProperties
+public struct DrawProperties
 {
     /** Левый-верхний угол отрисовки */
-    public double left { get; set; }
-    public double top { get; set; }
+    public double Left { get; set; }
+    public double Top { get; set; }
     /** Коэффициент масштабирования */
-    public double scale { get; set; }
+    public double Scale { get; set; }
     /** Картографический масштаб, например 1:500 mashtab = 500 */
-    public double mashtab { get; set; }
+    public double Mashtab { get; set; }
 }
 
-public class IText
+public struct DrawProperties1
 {
-    /** Текст вывода */
-    public string text { get; set; }
-    /** Точка вставки по X */
-    public double x { get; set; }
-    /** Точка вставки по Y */
-    public double y { get; set; }
-    /** Угол поворота */
-    public double angle { get; set; }
-    /** Описывающий прямоугольник */
-    public Rect rect { get; set; }
-    /** Координаты прямоугольника в который вписан текст */
-    public double[] coords { get; set; }
+    public Vector<double> LeftTop { get; set; }
+    /** Коэффициент масштабирования */
+    public double Scale { get; set; }
+    /** Картографический масштаб, например 1:500 mashtab = 500 */
+    public double Mashtab { get; set; }
 }
 
 /** Результирующий слой для отображения */
 public class ILayer
 {
     /** Уникальный идентификатор */
-    public Int64 legendId { get; set; }
+    public Int64 LegendId { get; set; }
     /** Координаты для отрисовки */
-    public double[][] coords { get; set; }
-    /** Шрифт */
-    // public string font { get; set; }
-    /** Тексты */
-    // public List<IText> texts { get; set; }
+    public double[][] Coords { get; set; } = null!;
 }
 /** Данные для отображения */
-public class IObraz
+public struct IObraz
 {
-    public double[] coords { get; set; }
-    public IText? text { get; set; }
-
+    public double[] Coords { get; set; }
 }

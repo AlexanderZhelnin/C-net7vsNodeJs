@@ -1,6 +1,8 @@
 using apiTest;
 using drawer;
 using drawer.Models;
+using System.Numerics;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,11 +29,30 @@ app.MapGet("/fibonacci", () =>
     return a.ToString();
 });
 
-var pr = new DrawProperties { left = Init.r.left, top = Init.r.top, scale = 0.37037037037037035, mashtab = 100 };
-var rect = new Rect { left = 1200, bottom = 50, right = 4000, top = 2850 };
-app.MapGet("/map", () =>
+var pr = new DrawProperties { Left = Init.r.Left, Top = Init.r.Top, Scale = 0.37037037037037035, Mashtab = 100 };
+var rect = new Rect { Left = 1200, Bottom = 50, Right = 4000, Top = 2850 };
+app.MapGet("/map", (double x, double y) =>
 {
-    return Drawer.Build(Init.ls, pr, rect);
+    x /= 100;
+    y /= 100;
+
+    var result = Drawer.Build(
+        Init.ls,
+        new()
+        {
+            Mashtab = pr.Mashtab,
+            Scale = pr.Scale,
+            LeftTop = new Vector<double>(new double[] { pr.Left + x, pr.Top + y, pr.Left + x, pr.Top + y })         
+        },
+        new()
+        {
+            Left = rect.Left + x,
+            Top = rect.Top + y,
+            Bottom = rect.Bottom,
+            Right = rect.Right
+        });
+
+    return System.Text.Json.JsonSerializer.Serialize(result).Length;
 });
 
 const string STR1 = "asrgfsadf12421";
@@ -42,7 +63,7 @@ app.MapGet("/naturalsort", () =>
     var result = 0;
     for (var i = 0; i < 10000; i++)
         result += Strings.CompareUnsafe(STR1 + i, STR2 + i);
-    
+
     return result;
 });
 

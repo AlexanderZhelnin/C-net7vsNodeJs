@@ -1,9 +1,12 @@
 ﻿using drawer.Models;
+using System.Buffers;
+using System.Runtime.CompilerServices;
 
 namespace drawer;
 
 internal static class Polygon
 {
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int GetNextIndex(int curIndex, int len)
     {
         curIndex += 2;
@@ -12,15 +15,13 @@ internal static class Polygon
     }
 
     private static double[] ClipLeft(double[] coords, double left)
-    {        
+    {
         if (coords.Length == 0) return coords;
-                
 
-        var pl = new List<double>();
+        var pl = new List<double>(coords.Length * 2);
         var curIndex = 0;
 
-        var px1 = coords[0];
-        var py1 = coords[1];
+        var (px1, py1) = (coords[0], coords[1]);
 
         if (px1 >= left)
         {
@@ -32,8 +33,7 @@ internal static class Polygon
         for (var i = 1; i <= len; i++)
         {
             curIndex = GetNextIndex(curIndex, coords.Length);
-            var px2 = coords[curIndex];
-            var py2 = coords[curIndex + 1];
+            var (px2, py2) = (coords[curIndex], coords[curIndex + 1]);
 
             if (px1 >= left && px2 >= left)
             {
@@ -59,20 +59,17 @@ internal static class Polygon
             px1 = px2;
             py1 = py2;
         }
-        
+
         return pl.ToArray();
     }
     private static double[] ClipRight(double[] coords, double right)
     {
+        if (coords.Length == 0) return coords;
+                
+        var pl = new List<double>(coords.Length * 2);
         var curIndex = 0;
 
-        
-        if (coords.Length == 0) return coords;
-
-        var pl = new List<double>();
-
-        var px1 = coords[0];
-        var py1 = coords[1];
+        var (px1, py1) = (coords[0], coords[1]);
 
         if (px1 <= right)
         {
@@ -109,20 +106,17 @@ internal static class Polygon
             px1 = px2;
             py1 = py2;
         }
-        
+
         return pl.ToArray();
     }
     private static double[] ClipBottom(double[] coords, double bottom)
     {
-        
         if (coords.Length == 0) return coords;
+        
+        var pl = new List<double>(coords.Length * 2);
         var curIndex = 0;
-               
 
-        var pl = new List<double>();
-
-        var px1 = coords[0];
-        var py1 = coords[0 + 1];
+        var (px1, py1) = (coords[0], coords[1]);
 
         if (py1 >= bottom)
         {
@@ -134,8 +128,7 @@ internal static class Polygon
         for (var i = 0; i < len; i++)
         {
             curIndex = GetNextIndex(curIndex, coords.Length);
-            var px2 = coords[curIndex];
-            var py2 = coords[curIndex + 1];
+            var (px2, py2) = (coords[curIndex], coords[curIndex + 1]);
 
             if (py1 >= bottom && py2 >= bottom)
             {
@@ -165,19 +158,17 @@ internal static class Polygon
             px1 = px2;
             py1 = py2;
         }
-        
+
         return pl.ToArray();
     }
     private static double[] ClipTop(double[] coords, double top)
     {
         if (coords.Length == 0) return coords;
+        
+        var pl = new List<double>(coords.Length * 2);
+        var curIndex = 0;
 
-        var curIndex = 0;        
-
-        var pl = new List<double>();
-
-        var px1 = coords[0];
-        var py1 = coords[1];
+        var (px1, py1) = (coords[0], coords[1]);
 
         if (py1 <= top)
         {
@@ -189,8 +180,7 @@ internal static class Polygon
         for (var i = 0; i < len; i++)
         {
             curIndex = GetNextIndex(curIndex, coords.Length);
-            var px2 = coords[curIndex];
-            var py2 = coords[curIndex + 1];
+            var (px2, py2) = (coords[curIndex], coords[curIndex + 1]);
 
             if (py1 <= top && py2 <= top)
             {
@@ -217,7 +207,7 @@ internal static class Polygon
             px1 = px2;
             py1 = py2;
         }
-        
+
         return pl.ToArray();
     }
 
@@ -226,19 +216,19 @@ internal static class Polygon
     {
         double[] res;
 
-        if (g.rect.left < rect.left)
-            res = ClipLeft(g.coords, rect.left);
+        if (g.Rect.Left < rect.Left)
+            res = ClipLeft(g.Coords, rect.Left);
         else
-            res=(double[])g.coords.Clone();
+            res = (double[])g.Coords.Clone();
 
-        if (g.rect.bottom < rect.bottom)
-            res = ClipBottom(res, rect.bottom);        
+        if (g.Rect.Bottom < rect.Bottom)
+            res = ClipBottom(res, rect.Bottom);
 
-        if (g.rect.right > rect.right)
-            res = ClipRight(res, rect.right);
+        if (g.Rect.Right > rect.Right)
+            res = ClipRight(res, rect.Right);
 
-        if (g.rect.top > rect.top)
-            res = ClipTop(res, rect.top);
+        if (g.Rect.Top > rect.Top)
+            res = ClipTop(res, rect.Top);
 
         return res.ToArray();
     }

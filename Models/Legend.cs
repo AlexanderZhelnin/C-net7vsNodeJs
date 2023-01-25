@@ -139,34 +139,34 @@ public enum FontStyleEnum
 /** Графические свойства условного обозначения */
 public class ILegendBlock
 {
-    public Int64 id { get; set; }
-    public double size { get; set; }
-    public bool scaled { get; set; }
+    public Int64 Id { get; set; }
+    public double Size { get; set; }
+    public bool Saled { get; set; }
 }
 
 /** Легенда для заливки */
 public class ILegendFill
 {
     /** Цвет заливки 1 */
-    public string color1 { get; set; }
+    public string Color1 { get; set; } = null!;
     /** Цвет заливки 2 */
-    public string color2 { get; set; }
+    public string Color2 { get; set; } = null!;
     /** Масштабируемость заливки */
-    public bool scaled { get; set; }
+    public bool Scaled { get; set; }
     /** Стиль заливки */
-    public FillStyleEnum style { get; set; }
+    public FillStyleEnum Style { get; set; }
     // fillHatchStyle:
     /** Стиль Градиентной заливки */
-    public GradientStyle gradientStyle { get; set; }
-    public ILegendBlock block { get; set; }
+    public GradientStyle GradientStyle { get; set; }
+    public ILegendBlock Block { get; set; } = null!;
 }
 
 /** Графические свойства границы */
 public class ILegendBorder
 {
     /** цвет */
-    public string color { get; set; }
-    public BorderStyleEnum style { get; set; }
+    public string Color { get; set; } = null!;
+    public BorderStyleEnum Style { get; set; }
     // dashStyle
     // startCap
     // endCap
@@ -174,58 +174,58 @@ public class ILegendBorder
     /** Ориентация блока для границы */
     //Orientated
     /** Масштабируемость границы */
-    public bool scaled { get; set; }
-    public double size { get; set; }
+    public bool Scaled { get; set; }
+    public double Size { get; set; }
 }
 
 /** Графические свойства шрифта */
 public class ILegendFont
 {
-    public string family { get; set; }
-    public double size { get; set; }
+    public string Family { get; set; } = null!;
+    public double Size { get; set; }
     //weight: number;
-    public FontStyleEnum style { get; set; }
+    public FontStyleEnum Style { get; set; }
 }
 
 /** Графические свойства надписи */
 public class ILegendText
 {
     /** Диапазон видимости */
-    public IMashtabRange mashtabRange { get; set; }
+    public IMashtabRange MashtabRange { get; set; }
     /** Опорный масштаб */
-    public double mashtabBase { get; set; }
+    public double MashtabBase { get; set; }
     /** Масштабируемость */
-    public bool scaled { get; set; }
+    public bool Scaled { get; set; }
     /** Положение */
-    public TextPositionEnum position { get; set; }
+    public TextPositionEnum Position { get; set; }
     /** Цвет */
-    public string color { get; set; }
+    public string Color { get; set; } = null!;
     /** Цвет фона */
-    public string backColor { get; set; }
+    public string BackColor { get; set; } = null!;
     /** Шрифт */
-    public ILegendFont font { get; set; }
-    public bool isAnalyze { get; set; }
+    public ILegendFont Font { get; set; } = null!;
+    public bool IsAnalyze { get; set; }
 }
 
 /** Графические свойства */
 public class ILegend
 {
     /** Уникальный идентификатор */
-    public Int64 id { get; set; }
+    public Int64 Id { get; set; }
     /** Тип графического образа */
-    public GrTypeEnum type { get; set; }
+    public GrTypeEnum Type { get; set; }
     /** Диапазон видимости */
-    public IMashtabRange mashtabRange { get; set; }
+    public IMashtabRange MashtabRange { get; set; }
     /** Приоритет */
-    public int priority { get; set; }
+    public int Priority { get; set; }
     /** Условное обозначение */
-    public ILegendBlock block { get; set; }
+    public ILegendBlock Block { get; set; } = null!;
     /** Заливка */
-    public ILegendFill fill { get; set; }
+    public ILegendFill Fill { get; set; } = null!;
     /** Граница */
-    public ILegendBorder border { get; set; }
+    public ILegendBorder Border { get; set; } = null!;
     /** Надпись */
-    public ILegendText text { get; set; }
+    public ILegendText Text { get; set; } = null!;
     /** Графические примитивы */
-    public IPrimitive[] primitives { get; set; }
+    public IPrimitive[] Primitives { get; set; } = null!;
 }

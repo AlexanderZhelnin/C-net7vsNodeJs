@@ -1,23 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace drawer.Models;
+﻿namespace drawer.Models;
 
 /** Приметив графического образа */
 public class IPrimitive
 {
     /** Координаты приметива  */
-    public double[] coords { get; set; }
-    public double textCoordX { get; set; }
-    public double textCoordY { get; set; }
+    public double[] Coords { get; set; } = null!;
+    public double TextCoordX { get; set; }
+    public double TextCoordY { get; set; }
     /** Угол поворота */
-    public double textAngle { get; set; }
+    public double TextAngle { get; set; }
     /** Описывающий прямоугольник */
-    public Rect rect { get; set; }
+    public Rect Rect { get; set; }
     /** Имя */
-    public string name { get; set; }
+    public string Name { get; set; } = null!;
 }
-
