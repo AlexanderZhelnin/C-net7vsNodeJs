@@ -17,9 +17,9 @@ public static class Init
                 
         ls = JsonConvert.DeserializeObject<ILegend[]>(json)!;        
 
-        ls = ls.ToList()
-               .OrderBy(l => l.Priority)
-               .ToArray();
+        //ls = ls.ToList()
+        //       .OrderBy(l => l.Priority)
+        //       .ToArray();
         
         r = new Rect { Left = 1200, Bottom = 50, Right = 4000, Top = 2850 };
         cx = (r.Right + r.Left) / 2;

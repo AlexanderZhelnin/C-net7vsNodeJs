@@ -2,7 +2,7 @@ using apiTest;
 using drawer;
 using drawer.Models;
 using System.Numerics;
-
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,23 +36,151 @@ app.MapGet("/map", (double x, double y) =>
     x /= 100;
     y /= 100;
 
+    var pr1 = new DrawProperties1()
+    {
+        Mashtab = pr.Mashtab,
+        Scale = pr.Scale,
+        LeftTop = new Vector<double>(new double[] { pr.Left + x, pr.Top + y, pr.Left + x, pr.Top + y })
+    };
+
+    var rect1 = new Rect()
+    {
+        Left = rect.Left + x,
+        Top = rect.Top + y,
+        Bottom = rect.Bottom,
+        Right = rect.Right
+    };
+
+
     var result = Drawer.Build(
         Init.ls,
-        new()
-        {
-            Mashtab = pr.Mashtab,
-            Scale = pr.Scale,
-            LeftTop = new Vector<double>(new double[] { pr.Left + x, pr.Top + y, pr.Left + x, pr.Top + y })         
-        },
-        new()
-        {
-            Left = rect.Left + x,
-            Top = rect.Top + y,
-            Bottom = rect.Bottom,
-            Right = rect.Right
-        });
+        ref pr1,
+        ref rect1);
 
-    return System.Text.Json.JsonSerializer.Serialize(result).Length;
+    return result.Length;
+    #region
+    //return System.Text.Json.JsonSerializer.Serialize(result).Length;
+
+    //using var ms = new MemoryStream();
+    //await Utf8Json.JsonSerializer.SerializeAsync(ms, result);
+    //return ms.Length;
+
+    //var sw = new StringWriter();
+    //var w = new JsonTextWriter(sw);
+    //w.WriteStartArray();
+    //for (var i = 0; i < result.Length; i++)
+    //{
+    //    w.WriteStartObject();
+
+    //    w.WritePropertyName("LegendId");
+    //    w.WriteValue(result[i].LegendId);
+
+    //    w.WritePropertyName("Coords");
+    //    w.WriteStartArray();
+
+    //    foreach (var css in result[i].Coords)
+    //    {
+    //        w.WriteStartArray();
+    //        for (var j = 0; j < css.Length; j++)
+    //            w.WriteValue(css[j]);
+    //        w.WriteEndArray();
+    //    }
+
+    //    w.WriteEndArray();
+
+    //    w.WriteEndObject();
+    //}
+
+    //w.WriteEndArray();
+
+    //return sw.ToString().Length;
+
+    //var sb = new StringBuilder(1000000);
+    //sb.Append('[');
+    //for (var i = 0; i < result.Length; i++)
+    //{
+    //    sb.Append("{\"LegendId\":");
+    //    sb.Append(result[i].LegendId);
+    //    sb.Append(",\"Coords\":[");
+    //    var coords = result[i].Coords;
+    //    foreach (var css in coords)
+    //    {
+    //        sb.Append('[');
+    //        for (var j = 0; j < css.Length; j++)
+    //        {
+
+    //            sb.Append(css[j]);
+    //            sb.Append(',');
+    //        }
+    //        sb.Append("],");
+    //    }
+    //    sb.Length--;
+    //    sb.Append("]},");
+    //}
+    //sb.Length--;
+
+    //sb.Append(']');
+    //return sb.Length;
+    #endregion
+
+});
+
+
+app.MapGet("/mapJSON", (double x, double y) =>
+{
+    x /= 100;
+    y /= 100;
+
+    var pr1 = new DrawProperties1()
+    {
+        Mashtab = pr.Mashtab,
+        Scale = pr.Scale,
+        LeftTop = new Vector<double>(new double[] { pr.Left + x, pr.Top + y, pr.Left + x, pr.Top + y })
+    };
+
+    var rect1 = new Rect()
+    {
+        Left = rect.Left + x,
+        Top = rect.Top + y,
+        Bottom = rect.Bottom,
+        Right = rect.Right
+    };
+
+    var result = Drawer.Build(
+        Init.ls,
+        ref pr1,
+        ref rect1);
+
+    return System.Text.Json.JsonSerializer.Serialize(result).Length;    
+});
+
+app.MapGet("/mapMyJSON", (double x, double y) =>
+{
+    x /= 100;
+    y /= 100;
+
+    var pr1 = new DrawProperties1()
+    {
+        Mashtab = pr.Mashtab,
+        Scale = pr.Scale,
+        LeftTop = new Vector<double>(new double[] { pr.Left + x, pr.Top + y, pr.Left + x, pr.Top + y })
+    };
+
+    var rect1 = new Rect()
+    {
+        Left = rect.Left + x,
+        Top = rect.Top + y,
+        Bottom = rect.Bottom,
+        Right = rect.Right
+    };
+
+    var result = Drawer.Build(
+        Init.ls,
+        ref pr1,
+        ref rect1);
+        
+    return result.ToJson().Length;
+
 });
 
 const string STR1 = "asrgfsadf12421";

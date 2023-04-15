@@ -32,12 +32,15 @@ internal class Calc
             cs[i + 1] = (top - cs[i + 1]) * pr.Scale;
         }
     }
-          
+
     /** Удаление точек которые не будут отображаться */
     public static double[] Optimize(double[] mas, double l = 1)
-    {
+    {        
         var count = mas.Length;
-        if (count < 5) return mas;
+        if (count < 5)
+        {
+            return (double[])mas.Clone();
+        }
 
         var coords = new List<double>(mas.Length);
 
@@ -103,7 +106,7 @@ internal class Calc
 
         var lenSQ = Sse41.DotProduct(cd, cd, 255)[0];//Vector128.Dot(cd, cd);
 
-        var param = (lenSQ != 0)            
+        var param = (lenSQ != 0)
             ? Sse41.DotProduct(ab, cd, 255)[0] / lenSQ
             : -1.0f;
 
